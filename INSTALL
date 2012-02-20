@@ -1,0 +1,19 @@
+django-fest
+
+First, you need to install "V8" and "PyV8" libraries:
+
+    export V8_SVN_URL="http://v8.googlecode.com/svn/trunk/@10412"
+    pip install svn+http://pyv8.googlecode.com/svn/trunk/@429#egg=PyV8
+
+Next, install django-fest by run the following command inside this directory:
+
+    python setup.py install
+
+Or if you'd prefer you can simply place the included "fest"
+directory somewhere on your Python path, or symlink to it from
+somewhere on your Python path; this is useful if you're working from a
+git checkout.
+
+You also need 'fest' JavaScript lib in your 'static' dir.
+You can get it here: https://github.com/mailru/fest
+
