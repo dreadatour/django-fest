@@ -10,7 +10,10 @@ setup(
 	package_data = {'fest': ['static/fest/lib/*.js',]},
 
 	install_requires=[
-		'PyV8',
+		'PyV8==1.0',
+	],
+	dependency_links=[
+		'svn+http://pyv8.googlecode.com/svn/trunk/@429#egg=PyV8-1.0',
 	],
 
 	author = 'Vladimir Rudnyh',

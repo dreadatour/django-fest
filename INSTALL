@@ -2,7 +2,7 @@ django-fest
 
 First, you need to install "V8" and "PyV8" libraries:
 
-    export V8_SVN_URL="http://v8.googlecode.com/svn/branches/3.7/"
+	export V8_SVN_URL="http://v8.googlecode.com/svn/trunk/@10412"
     pip install svn+http://pyv8.googlecode.com/svn/trunk/@429#egg=PyV8
 
 Next, update fest javascript libs from fest repository:
@@ -12,7 +12,7 @@ Next, update fest javascript libs from fest repository:
 
 Next, install django-fest by runing the following command inside this directory:
 
-    python setup.py install
+	pip install -U -e .
 
 Or if you'd prefer you can simply place the included "fest"
 directory somewhere on your Python path, or symlink to it from
