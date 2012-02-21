@@ -5,7 +5,7 @@ First, update fest javascript libs from fest repository:
 	git submodule init
 	git submodule update
 
-Next, install django-fest by runing the following command inside this directory:
+Next, install django-fest by runing the following commands inside this directory:
 
 	export V8_SVN_URL="http://v8.googlecode.com/svn/trunk/@10412"
 	pip install -U -e .
