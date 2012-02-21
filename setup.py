@@ -1,36 +1,30 @@
-from distutils.core import setup
 import os
-
+from setuptools import setup, find_packages
 from fest import get_version
 
 
-packages, data_files = [], []
-root_dir = os.path.dirname(__file__)
-if root_dir:
-	os.chdir(root_dir)
+# redefine V8_SVN_URL env variable (needs to install PyV8)
+#v8_svn_url = getattr(os.environ, 'V8_SVN_URL', '')
+#os.environ['V8_SVN_URL'] = 'http://v8.googlecode.com/svn/branches/3.7/'
 
-for dirpath, dirnames, filenames in os.walk('fest'):
-	for i, dirname in enumerate(dirnames):
-		if dirname.startswith('.'): del dirnames[i]
-	if '__init__.py' in filenames:
-		pkg = dirpath.replace(os.path.sep, '.')
-		if os.path.altsep:
-			pkg = pkg.replace(os.path.altsep, '.')
-		packages.append(pkg)
-	elif filenames:
-		prefix = dirpath[5:] # Strip "fest/" or "fest\"
-		if prefix == 'static/fest/lib':
-			for f in filenames:
-				data_files.append(os.path.join(prefix, f))
+setup(
+	name = 'django-fest',
+	version = get_version(),
+	packages = find_packages(),
+	package_data = {'fest': ['static/fest/lib/*.js',]},
 
+#	install_requires=[
+#		'PyV8==1.0',
+#	],
+#	dependency_links=[
+#		'http://pyv8.googlecode.com/svn/trunk/#egg=PyV8-1.0',
+#	],
 
-setup(name='django-fest',
-	version=get_version(),
-	description='Use fest templates with Django',
-	author='Vladimir Rudnyh',
-	author_email='rudnyh@corp.mail.ru',
-	package_dir={'fest': 'fest'},
-	packages=packages,
-	package_data={'fest': data_files},
+	author = 'Vladimir Rudnyh',
+	author_email = 'rudnyh@corp.mail.ru',
+	description = 'Use fest templates with Django'
 )
+
+# restore V8_SVN_URL env variable
+#os.environ['V8_SVN_URL'] = v8_svn_url
 
