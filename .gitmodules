@@ -1,0 +1,3 @@
+[submodule "fest/static/fest"]
+	path = fest/static/fest
+	url = git://github.com/mailru/fest.git
