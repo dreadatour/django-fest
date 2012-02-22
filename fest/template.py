@@ -17,6 +17,9 @@ from fest.conf import settings
 def fest_error(message):
     raise TemplateSyntaxError(message)
 
+class JSError(Exception):
+    pass
+
 
 class TemplateGlobal(PyV8.JSClass):
 
