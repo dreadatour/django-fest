@@ -1,4 +1,5 @@
 import os
+import re
 
 from django.template.loader import get_template
 from django.template import Context, TemplateSyntaxError
@@ -8,6 +9,8 @@ from django.test.utils import override_settings
 
 from fest.template import JSError
 
+
+FEST_ROOT = os.path.join(os.path.dirname(__file__), 'static/fest')
 
 class FestTestCase(TestCase):
 	def setUp(self):
@@ -94,7 +97,6 @@ class FestTestCase(TestCase):
 		"""use strict"""
 		tmpl = 'strict.xml'
 		ctxt = {}
-
 		with self.assertRaises(TemplateSyntaxError) as error:
 			res = get_template(tmpl).render(Context(ctxt))
 		self.assertEqual(str(error.exception), 'g is not defined')
@@ -117,7 +119,6 @@ class FestTestCase(TestCase):
 		"""include"""
 		tmpl = 'include.xml'
 		ctxt = {}
-
 		with self.assertRaises(TemplateSyntaxError) as error:
 			res = get_template(tmpl).render(Context(ctxt))
 		self.assertTrue(str(error.exception).startswith('error open file '))
@@ -148,21 +149,21 @@ class FestTestCase(TestCase):
 		"""first attributes"""
 		tmpl = 'first_attributes.xml'
 		ctxt = {}
-
 		with self.assertRaises(Exception) as error:
 			res = get_template(tmpl).render(Context(ctxt))
-		# TODO: add check for 'fest:attributes must be the first child' string
 		self.assertTrue(str(error.exception).startswith('JSError:'))
+		r = re.compile('^At line 5: fest:attributes must be the first child', re.M)
+		self.assertTrue(r.search(str(error.exception)) is not None)
 
 	def test_nested_attributes(self):
 		"""nested attributes"""
 		tmpl = 'nested_attributes.xml'
 		ctxt = {}
-
 		with self.assertRaises(Exception) as error:
 			res = get_template(tmpl).render(Context(ctxt))
-		# TODO: add check for 'fest:attributes cannot be nested' string
 		self.assertTrue(str(error.exception).startswith('JSError:'))
+		r = re.compile('^At line 5: fest:attributes cannot be nested', re.M)
+		self.assertTrue(r.search(str(error.exception)) is not None)
 
 	def test_document_write(self):
 		"""document.write"""
@@ -175,14 +176,12 @@ class FestTestCase(TestCase):
 		"""unclosed template"""
 		tmpl = 'template.xml'
 		ctxt = {}
-
 		with self.assertRaises(Exception) as error:
 			res = get_template(tmpl).render(Context(ctxt))
-		# TODO: add check for 'fest:template is not closed' string
 		self.assertTrue(str(error.exception).startswith('JSError:'))
+		r = re.compile('^At line 2: fest:template is not closed', re.M)
+		self.assertTrue(r.search(str(error.exception)) is not None)
 
-
-FEST_ROOT = os.path.join(os.path.dirname(__file__), 'static/fest')
 
 FestTestCase = override_settings(
 	TEMPLATE_DEBUG=True,
