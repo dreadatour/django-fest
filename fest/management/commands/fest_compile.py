@@ -9,12 +9,14 @@ from django.core.files.storage import FileSystemStorage
 from django.template import TemplateDoesNotExist
 from django.template.loader import find_template
 from django.template.loaders.cached import Loader as CachedLoader
+from django.test.utils import override_settings
 
 from fest.template import Template
 
 
 class Command(NoArgsCommand):
 
+    @override_settings(TEMPLATE_DEBUG=True)
     def handle_noargs(self, **options):
         # Force django to calculate template_source_loaders
         try:
@@ -54,8 +56,10 @@ class Command(NoArgsCommand):
             content = open(template_file)
             try:
                 tpl = Template(content.read().decode(settings.FILE_CHARSET),
-                               template_file=template_file)
-                compiled = ContentFile(tpl.compile())
+                               template_file=template_file,
+                               template_name=filename)
+                tpl.compile()
+                compiled = ContentFile(tpl.template_string)
             finally:
                 content.close()
 

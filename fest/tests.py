@@ -97,7 +97,7 @@ class FestTestCase(TestCase):
 		"""use strict"""
 		tmpl = 'strict.xml'
 		ctxt = {}
-		with self.assertRaises(TemplateSyntaxError) as error:
+		with self.assertRaises(JSError) as error:
 			res = get_template(tmpl).render(Context(ctxt))
 		self.assertEqual(str(error.exception), 'g is not defined')
 
@@ -119,7 +119,7 @@ class FestTestCase(TestCase):
 		"""include"""
 		tmpl = 'include.xml'
 		ctxt = {}
-		with self.assertRaises(TemplateSyntaxError) as error:
+		with self.assertRaises(JSError) as error:
 			res = get_template(tmpl).render(Context(ctxt))
 		self.assertTrue(str(error.exception).startswith('error open file '))
 		self.assertTrue(str(error.exception).endswith(' No such file or directory'))

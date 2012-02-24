@@ -12,10 +12,12 @@ class FSLoader(filesystem.Loader):
     is_usable = True
 
     def load_template(self, template_name, template_dirs=None):
+        template_name = os.path.normpath(template_name)
         source, origin = self.load_template_source(template_name, template_dirs)
-        return Template(source, origin), origin
+        return Template(source, template_file=origin, template_name=template_name), origin
 
     def load_template_source(self, template_name, template_dirs=None):
+        template_name = os.path.normpath(template_name)
         if settings.TEMPLATE_DEBUG or template_name.endswith('.html'):
             return super(FSLoader, self).load_template_source(template_name, template_dirs)
 
